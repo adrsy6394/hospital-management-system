@@ -1,0 +1,23 @@
+{
+  "name": "hospital-management-system",
+  "version": "1.0.0",
+  "description": "A comprehensive Hospital Management System using MERN stack",
+  "main": "index.js",
+  "scripts": {
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": [
+    "hospital",
+    "management",
+    "MERN",
+    "healthcare"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
