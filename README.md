@@ -69,6 +69,17 @@ hospital-management-system/
    npm run dev
    ```
 
+## Production Deployment
+
+### Vercel Deployment
+
+1. **Backend**:
+   - Set `FRONTEND_URL` to your production frontend URL.
+   - Set `NODE_ENV` to `production`.
+   - Ensure `MONGO_URI` and `JWT_SECRET` are configured.
+2. **Frontend**:
+   - Set `VITE_API_URL` to your production backend URL (including `/api`).
+
 ## License
 
 MIT
