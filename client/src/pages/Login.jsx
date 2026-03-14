@@ -111,16 +111,7 @@ const Login = () => {
           </Link>
         </p>
 
-        {/* Demo Credentials */}
-        <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <p className="text-xs font-semibold text-gray-700 mb-2">Demo Credentials:</p>
-          <div className="text-xs text-gray-600 space-y-1">
-            <p><span className="font-medium">Admin:</span> admin@hospital.com / admin123</p>
-            <p><span className="font-medium">Doctor:</span> doctor@hospital.com / doctor123</p>
-            <p><span className="font-medium">Staff:</span> staff@hospital.com / staff123</p>
-            <p><span className="font-medium">Patient:</span> patient@hospital.com / patient123</p>
-          </div>
-        </div>
+
       </div>
     </div>
   );
