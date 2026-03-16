@@ -93,96 +93,123 @@ const EditBill = () => {
 
   return (
     <Layout>
-      <div className="max-w-2xl mx-auto space-y-6">
-        <div>
+      <div className="max-w-2xl mx-auto space-y-4 md:space-y-6">
+        <div className="px-1 sm:px-0">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center text-gray-600 hover:text-gray-900 mb-4"
+            className="group flex items-center text-gray-500 hover:text-blue-600 mb-4 transition-colors font-bold text-xs md:text-sm"
           >
-            <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Back to Bill
+            Return to Bill Details
           </button>
-          <h1 className="text-3xl font-bold text-gray-900">Edit Bill</h1>
-          <p className="text-gray-600 mt-1">Update payment status for {bill?.billId}</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Update Invoice</h1>
+          <p className="text-sm md:text-base text-gray-600 mt-1">Modifying payment status for <span className="text-blue-600 font-bold">{bill?.billId}</span></p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-          <div className="mb-6 p-4 bg-gray-50 rounded-lg flex justify-between items-center">
-            <div>
-              <p className="text-sm text-gray-600">Total Amount Due</p>
-              <p className="text-2xl font-bold text-gray-900">₹{bill?.totalAmount.toLocaleString()}</p>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="p-5 md:p-6 bg-gradient-to-br from-gray-50 to-white border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="text-center sm:text-left">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Amount Due</p>
+              <p className="text-2xl md:text-3xl font-black text-gray-900 mt-1">₹{bill?.totalAmount.toLocaleString()}</p>
             </div>
-            <div className="text-right text-sm text-gray-600">
-              <p>Patient: <span className="font-bold">{bill?.patientId?.userId?.name}</span></p>
-              <p>Current Status: <span className="font-bold capitalize">{bill?.paymentStatus}</span></p>
+            <div className="text-center sm:text-right space-y-1">
+              <p className="text-xs md:text-sm font-bold text-gray-700">Patient: <span className="text-blue-600">{bill?.patientId?.userId?.name}</span></p>
+              <div className="flex items-center justify-center sm:justify-end gap-2 text-[10px] md:text-xs">
+                 <span className="text-gray-400 font-bold uppercase tracking-widest">Live Status:</span>
+                 <span className={`px-2 py-0.5 rounded-full font-bold uppercase ring-1 ring-inset ${
+                   bill?.paymentStatus === 'paid' ? 'bg-green-50 text-green-600 ring-green-600/20' : 
+                   bill?.paymentStatus === 'partial' ? 'bg-yellow-50 text-yellow-600 ring-yellow-600/20' : 
+                   'bg-red-50 text-red-600 ring-red-600/20'
+                 }`}>
+                   {bill?.paymentStatus}
+                 </span>
+              </div>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Paid Amount (₹)
+          <form onSubmit={handleSubmit} className="p-5 md:p-8 space-y-6">
+            <div className="space-y-2">
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest">
+                Payment Collection (₹)
               </label>
-              <input
-                type="number"
-                name="paidAmount"
-                value={formData.paidAmount}
-                onChange={handlePaidAmountChange}
-                max={bill?.totalAmount}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-lg">₹</span>
+                <input
+                  type="number"
+                  name="paidAmount"
+                  value={formData.paidAmount}
+                  onChange={handlePaidAmountChange}
+                  max={bill?.totalAmount}
+                  required
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-black md:text-lg transition"
+                />
+                <p className="text-[10px] text-gray-400 mt-2 font-medium italic">Cannot exceed the total billing amount of ₹{bill?.totalAmount.toLocaleString()}</p>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Payment Status
-              </label>
-              <select
-                name="paymentStatus"
-                value={formData.paymentStatus}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="pending">Pending</option>
-                <option value="partial">Partial</option>
-                <option value="paid">Paid</option>
-              </select>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest">
+                  Updated Status
+                </label>
+                <select
+                  name="paymentStatus"
+                  value={formData.paymentStatus}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-bold text-sm bg-white cursor-pointer"
+                >
+                  <option value="pending">⏳ Pending</option>
+                  <option value="partial">🌓 Partial</option>
+                  <option value="paid">✅ Paid</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest">
+                  Payment Method
+                </label>
+                <select
+                  name="paymentMethod"
+                  value={formData.paymentMethod}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-bold text-sm bg-white cursor-pointer"
+                >
+                  <option value="cash">💵 Cash</option>
+                  <option value="card">💳 Card</option>
+                  <option value="upi">📲 UPI</option>
+                  <option value="insurance">🛡️ Insurance</option>
+                </select>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Payment Method
-              </label>
-              <select
-                name="paymentMethod"
-                value={formData.paymentMethod}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="cash">Cash</option>
-                <option value="card">Card</option>
-                <option value="upi">UPI</option>
-                <option value="insurance">Insurance</option>
-              </select>
-            </div>
-
-            <div className="pt-4 flex space-x-4">
+            <div className="pt-6 flex flex-col-reverse sm:flex-row gap-3">
               <button
                 type="button"
                 onClick={() => navigate(-1)}
-                className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium"
+                className="w-full sm:flex-1 px-6 py-3.5 border border-gray-200 text-gray-500 rounded-xl hover:bg-gray-50 transition font-bold text-sm"
               >
-                Cancel
+                Cancel Changes
               </button>
               <button
                 type="submit"
                 disabled={submitting}
-                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold disabled:opacity-50"
+                className="w-full sm:flex-1 px-6 py-3.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-bold shadow-lg shadow-blue-100 flex items-center justify-center gap-2 transform active:scale-95 disabled:opacity-50 disabled:transform-none"
               >
-                {submitting ? 'Updating...' : 'Update Bill'}
+                {submitting ? (
+                   <>
+                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                     Updating Records...
+                   </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Save Invoice Changes
+                  </>
+                )}
               </button>
             </div>
           </form>

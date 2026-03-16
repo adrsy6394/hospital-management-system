@@ -57,28 +57,28 @@ const BillDetails = () => {
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto space-y-6 print:m-0 print:p-0">
+      <div className="max-w-4xl mx-auto space-y-4 md:space-y-6 print:m-0 print:p-0">
         {/* Header - Hidden on Print */}
-        <div className="flex justify-between items-center print:hidden">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 md:gap-0 print:hidden px-1 md:px-0">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center text-gray-600 hover:text-gray-900"
+            className="flex items-center text-gray-600 hover:text-gray-900 text-sm md:text-base"
           >
-            <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 md:w-5 md:h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             Back to List
           </button>
-          <div className="flex space-x-3">
+          <div className="flex space-x-2 md:space-x-3">
             <button
               onClick={handlePrint}
-              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+              className="flex-1 sm:flex-none px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm md:text-base font-medium shadow-sm transition"
             >
               Print Bill
             </button>
             <button
               onClick={() => navigate(`/admin/billing/edit/${bill._id}`)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm md:text-base font-medium shadow-sm"
             >
               Edit Bill
             </button>
@@ -88,88 +88,89 @@ const BillDetails = () => {
         {/* Bill Content */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden print:border-0 print:shadow-none">
           {/* Bill Header */}
-          <div className="bg-gray-50 p-8 border-b border-gray-200 flex justify-between items-start print:bg-white">
+          <div className="bg-gray-50 p-6 md:p-8 border-b border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 print:bg-white print:flex-row">
             <div>
-              <h1 className="text-3xl font-bold text-blue-600">INVOICE</h1>
-              <p className="text-gray-600 mt-2">Bill ID: <span className="font-bold">{bill.billId}</span></p>
-              <p className="text-gray-600">Date: {new Date(bill.createdAt).toLocaleDateString()}</p>
+              <h1 className="text-2xl md:text-3xl font-bold text-blue-600">INVOICE</h1>
+              <p className="text-sm md:text-base text-gray-600 mt-1 md:mt-2">Bill ID: <span className="font-bold">{bill.billId}</span></p>
+              <p className="text-sm text-gray-600">Date: {new Date(bill.createdAt).toLocaleDateString()}</p>
             </div>
-            <div className="text-right">
-              <h2 className="text-xl font-bold text-gray-900">Hospital Management</h2>
-              <p className="text-gray-600">123 Health Street, Medical City</p>
-              <p className="text-gray-600">Phone: +1 (234) 567-890</p>
-              <p className="text-gray-600">Email: contact@hospital.com</p>
+            <div className="md:text-right">
+              <h2 className="text-lg md:text-xl font-bold text-gray-900">Hospital Management</h2>
+              <p className="text-xs md:text-sm text-gray-600">123 Health Street, Medical City</p>
+              <p className="text-xs md:text-sm text-gray-600">Phone: +1 (234) 567-890</p>
+              <p className="text-xs md:text-sm text-gray-600">Email: contact@hospital.com</p>
             </div>
           </div>
 
-          <div className="p-8 space-y-8">
+          <div className="p-6 md:p-8 space-y-6 md:space-y-8">
             {/* Patient Info */}
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               <div>
-                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Bill To:</h3>
-                <p className="text-lg font-bold text-gray-900">{bill.patientId?.userId?.name}</p>
-                <p className="text-gray-600">Patient ID: {bill.patientId?.patientId}</p>
-                <p className="text-gray-600">Phone: {bill.patientId?.userId?.phone}</p>
+                <h3 className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Bill To:</h3>
+                <p className="text-base md:text-lg font-bold text-gray-900">{bill.patientId?.userId?.name}</p>
+                <p className="text-sm text-gray-600">Patient ID: {bill.patientId?.patientId}</p>
+                <p className="text-sm text-gray-600">Phone: {bill.patientId?.userId?.phone}</p>
               </div>
-              <div className="text-right">
-                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Payment Details:</h3>
-                <p className="text-gray-600">Status: 
-                  <span className={`ml-2 px-2 py-1 rounded text-xs font-bold capitalize ${
+              <div className="md:text-right">
+                <h3 className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Payment Details:</h3>
+                <div className="flex items-center md:justify-end gap-2">
+                  <span className="text-sm text-gray-600">Status:</span>
+                  <span className={`px-2 py-0.5 rounded text-[10px] md:text-xs font-bold capitalize ${
                     bill.paymentStatus === 'paid' ? 'bg-green-100 text-green-700' : 
                     bill.paymentStatus === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-orange-100 text-orange-700'
                   }`}>
                     {bill.paymentStatus}
                   </span>
-                </p>
-                <p className="text-gray-600 mt-1">Method: <span className="capitalize">{bill.paymentMethod}</span></p>
+                </div>
+                <p className="text-sm text-gray-600 mt-1.5">Method: <span className="capitalize">{bill.paymentMethod}</span></p>
               </div>
             </div>
 
             {/* Services Table */}
-            <div className="border border-gray-200 rounded-lg overflow-hidden">
-              <table className="w-full">
+            <div className="border border-gray-200 rounded-lg overflow-x-auto">
+              <table className="w-full min-w-[500px] md:min-w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Service</th>
-                    <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Description</th>
-                    <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase">Amount</th>
+                    <th className="px-4 md:px-6 py-3 text-left text-[10px] md:text-xs font-bold text-gray-500 uppercase">Service</th>
+                    <th className="px-4 md:px-6 py-3 text-left text-[10px] md:text-xs font-bold text-gray-500 uppercase">Description</th>
+                    <th className="px-4 md:px-6 py-3 text-right text-[10px] md:text-xs font-bold text-gray-500 uppercase">Amount</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   <tr>
-                    <td className="px-6 py-4 text-sm text-gray-900">Consultation Fee</td>
-                    <td className="px-6 py-4 text-sm text-gray-500">Doctor professional fees</td>
-                    <td className="px-6 py-4 text-sm text-gray-900 text-right">₹{bill.consultationFee.toLocaleString()}</td>
+                    <td className="px-4 md:px-6 py-3 md:py-4 text-sm text-gray-900 font-medium">Consultation Fee</td>
+                    <td className="px-4 md:px-6 py-3 md:py-4 text-xs md:text-sm text-gray-500">Doctor professional fees</td>
+                    <td className="px-4 md:px-6 py-3 md:py-4 text-sm text-gray-900 text-right">₹{bill.consultationFee.toLocaleString()}</td>
                   </tr>
                   {bill.services?.map((service, index) => (
                     <tr key={index}>
-                      <td className="px-6 py-4 text-sm text-gray-900">{service.name}</td>
-                      <td className="px-6 py-4 text-sm text-gray-500">{service.description}</td>
-                      <td className="px-6 py-4 text-sm text-gray-900 text-right">₹{service.amount.toLocaleString()}</td>
+                      <td className="px-4 md:px-6 py-3 md:py-4 text-sm text-gray-900 font-medium">{service.name}</td>
+                      <td className="px-4 md:px-6 py-3 md:py-4 text-xs md:text-sm text-gray-500">{service.description}</td>
+                      <td className="px-4 md:px-6 py-3 md:py-4 text-sm text-gray-900 text-right">₹{service.amount.toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>
                 <tfoot className="bg-gray-50">
                   <tr>
-                    <td colSpan="2" className="px-6 py-4 text-right font-bold text-gray-900">Total Amount</td>
-                    <td className="px-6 py-4 text-right font-bold text-blue-600 text-xl">₹{bill.totalAmount.toLocaleString()}</td>
+                    <td colSpan="2" className="px-4 md:px-6 py-3 md:py-4 text-right font-bold text-gray-900 text-sm md:text-base">Total Amount</td>
+                    <td className="px-4 md:px-6 py-3 md:py-4 text-right font-bold text-blue-600 text-lg md:text-xl">₹{bill.totalAmount.toLocaleString()}</td>
                   </tr>
                   <tr>
-                    <td colSpan="2" className="px-6 py-4 text-right text-sm text-gray-600">Paid Amount</td>
-                    <td className="px-6 py-4 text-right text-sm text-green-600 font-bold">₹{bill.paidAmount.toLocaleString()}</td>
+                    <td colSpan="2" className="px-4 md:px-6 py-3 md:py-4 text-right text-xs md:text-sm text-gray-600">Paid Amount</td>
+                    <td className="px-4 md:px-6 py-3 md:py-4 text-right text-xs md:text-sm text-green-600 font-bold">₹{bill.paidAmount.toLocaleString()}</td>
                   </tr>
-                  <tr className="border-t">
-                    <td colSpan="2" className="px-6 py-4 text-right text-sm text-gray-600">Due Amount</td>
-                    <td className="px-6 py-4 text-right text-sm text-red-600 font-bold">₹{(bill.totalAmount - bill.paidAmount).toLocaleString()}</td>
+                  <tr className="border-t border-gray-200">
+                    <td colSpan="2" className="px-4 md:px-6 py-3 md:py-4 text-right text-xs md:text-sm text-gray-600">Due Amount</td>
+                    <td className="px-4 md:px-6 py-3 md:py-4 text-right text-xs md:text-sm text-red-600 font-bold">₹{(bill.totalAmount - bill.paidAmount).toLocaleString()}</td>
                   </tr>
                 </tfoot>
               </table>
             </div>
 
             {/* Footer Note */}
-            <div className="pt-8 text-center border-t border-gray-100">
-              <p className="text-gray-500 text-sm">Thank you for your visit. Take care!</p>
-              <p className="text-gray-400 text-xs mt-1">This is a computer-generated invoice.</p>
+            <div className="pt-6 md:pt-8 text-center border-l-0 md:border-t md:border-gray-100">
+              <p className="text-gray-500 text-xs md:text-sm">Thank you for your visit. Take care!</p>
+              <p className="text-gray-400 text-[10px] md:text-xs mt-1 md:mt-2">This is a computer-generated invoice.</p>
             </div>
           </div>
         </div>
